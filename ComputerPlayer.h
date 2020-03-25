@@ -1,18 +1,22 @@
-#pragma once
+#include "Game.h"
+
 class ComputerPlayer
 {
 private:
 	int score;
+	Game* game;
+
 public:
-	ComputerPlayer() {
-		score = 0;
+	ComputerPlayer(Game* game) {
+		this->score = 0;
+		this->game = game;
 	}
 	~ComputerPlayer();
 	int getScore() {
 		return score;
 	}
-	void incrementScore() {
-		score++;
+	void incrementScore(int points) {
+		score += points;
 	}
 };
 

@@ -50,7 +50,7 @@ void Game::printBoard()
 			//square
 			if (i % 2 == 1 && j % 2 == 1) {
 				if (this->board[i][j] == 0)
-					cout << " 1 ";
+					cout << "   ";
 				else
 					cout << " " << this->board[i][j] << " ";
 				continue;
@@ -96,12 +96,12 @@ bool Game::lineIsFree(int startX, int startY, int destX, int destY)
 	}
 }
 
-void Game::addLine(int startX, int startY, int destX, int destY, int player_id)
+void Game::addLine(int startX, int startY, int destX, int destY)
 {
 	int x, y;
 	this->convertLineCoordinates(startX, startY, destX, destY, &x, &y);
 
-	this->board[x][y] = player_id;
+	this->board[x][y] = 1;
 }
 
 void Game::convertLineCoordinates(int startX, int startY, int destX, int destY, int * x, int * y)
@@ -133,4 +133,80 @@ bool Game::checkEndGame()
 		}
 	}
 	return true;
+}
+
+int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, int player_id)
+{
+	int x, y;
+	this->convertLineCoordinates(startX, startY, destX, destY, &x, &y);
+
+	//horizontal line
+	if (x % 2 == 0 && y % 2 == 1) {
+
+		//top line - max 1 box
+		if (x == 0) {
+			if (this->board[x + 1][y - 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x + 2][y] == 1) {
+				this->board[x + 1][y] = player_id;
+				return 1;
+			}
+			return 0;
+		}
+
+		//bottom line - max 1 box
+		if (x == this->rows - 1) {
+			if (this->board[x - 1][y - 1] == 1 && this->board[x - 1][y + 1] == 1 && this->board[x - 2][y] == 1) {
+				this->board[x - 1][y] = player_id;
+				return 1;
+			}
+			return 0;
+		}
+
+		//center line - max 2 boxes
+		int nr = 0;
+		if (this->board[x + 1][y - 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x + 2][y] == 1) {
+			this->board[x + 1][y] = player_id;
+			nr++;
+		}
+		if (this->board[x - 1][y - 1] == 1 && this->board[x - 1][y + 1] == 1 && this->board[x - 2][y] == 1) {
+			this->board[x - 1][y] = player_id;
+			nr++;
+		}
+		return nr;
+	 }
+
+	//vertical line
+	if (x % 2 == 1 && y % 2 == 0) {
+
+		//left edge line - max 1 box
+		if (x == 0) {
+			if (this->board[x - 1][y + 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x][y + 2] == 1) {
+				this->board[x][y + 1] = player_id;
+				return 1;
+			}
+			return 0;
+		}
+
+		//rigth edge line - max 1 box
+		if (x == this->cols - 1) {
+			if (this->board[x - 1][y - 1] == 1 && this->board[x + 1][y - 1] == 1 && this->board[x][y - 2] == 1) {
+				this->board[x][y - 1] = player_id;
+				return 1;
+			}
+			return 0;
+		}
+
+		//center line - max 2 boxes
+		int nr = 0;
+		if (this->board[x - 1][y + 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x][y + 2] == 1) {
+			this->board[x][y + 1] = player_id;
+			nr++;
+		}
+		if (this->board[x - 1][y - 1] == 1 && this->board[x + 1][y - 1] == 1 && this->board[x][y - 2] == 1) {
+			this->board[x][y - 1] = player_id;
+			nr++;
+		}
+		return nr;
+	}
+
+	return 0;
 }

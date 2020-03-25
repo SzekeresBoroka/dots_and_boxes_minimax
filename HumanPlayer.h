@@ -16,8 +16,8 @@ public:
 	int getScore() {
 		return score;
 	}
-	void incrementScore() {
-		score++;
+	void incrementScore(int points) {
+		score += points;
 	}
 	void move();
 };

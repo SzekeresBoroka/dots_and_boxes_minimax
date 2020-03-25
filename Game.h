@@ -16,13 +16,12 @@ private:
 			3    |
 			4  2 | *   *   *
 
+			DOTS:  -> i and j are even numbers -> 0 (*)
 
-			DOTS: -> i and j are even numbers
-
-			LINES: -> i is odd, j is even 
+			LINES: -> i is odd, j is even      -> 0 for Free, 1 for Line
 					  or i is even, j is odd
 
-			SQUARES: -> i and j are odd numbers
+			BOXES: -> i and j are odd numbers  -> 0 for Free, 1 for Player1, 2 for Player2
 	*/
 public:
 	Game(const int rows, const int cols);
@@ -30,8 +29,11 @@ public:
 	void printBoard();
 	bool validCoordinates(int x, int y);
 	bool lineIsFree(int startX, int startY, int destX, int destY);
-	void addLine(int startX, int startY, int destX, int destY, int player_id);
-	void convertLineCoordinates(int startX, int startY, int destX, int destY, int *x, int *y);
+	void addLine(int startX, int startY, int destX, int destY);
 	bool checkEndGame();
+	int completedBoxesWithMove(int startX, int startY, int destX, int destY, int player_id);
+
+private:
+	void convertLineCoordinates(int startX, int startY, int destX, int destY, int *x, int *y);
 };
 

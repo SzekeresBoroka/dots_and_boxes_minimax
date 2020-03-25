@@ -14,6 +14,7 @@ void HumanPlayer::move()
 
 	while (!good_coordinates) {
 		good_coordinates = true;
+		cout << "Player1 it's your turn! \nYour move:\n";
 		cout << "From: x_coordinate: ";
 		cin >> startX;
 		cout << "      y_coordinate: ";
@@ -51,8 +52,8 @@ void HumanPlayer::move()
 			cout << "invalid move, try again" << endl << endl;
 	}
 
-	//ha nyero pozicio
+	this->game->addLine(startX, startY, destX, destY);
 
-	this->game->addLine(startX, startY, destX, destY, ID);
-	
+	int points = this->game->completedBoxesWithMove(startX, startY, destX, destY, ID);
+	this->incrementScore(points);	
 }
