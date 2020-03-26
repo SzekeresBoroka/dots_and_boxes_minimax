@@ -145,7 +145,7 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 
 		//top line - max 1 box
 		if (x == 0) {
-			if (this->board[x + 1][y - 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x + 2][y] == 1) {
+			if (this->board[x + 1][y - 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x + 2][y] == 1 && this->board[x + 1][y] == 0) {
 				this->board[x + 1][y] = player_id;
 				return 1;
 			}
@@ -154,7 +154,7 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 
 		//bottom line - max 1 box
 		if (x == this->rows - 1) {
-			if (this->board[x - 1][y - 1] == 1 && this->board[x - 1][y + 1] == 1 && this->board[x - 2][y] == 1) {
+			if (this->board[x - 1][y - 1] == 1 && this->board[x - 1][y + 1] == 1 && this->board[x - 2][y] == 1 && this->board[x - 1][y] == 0) {
 				this->board[x - 1][y] = player_id;
 				return 1;
 			}
@@ -163,11 +163,11 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 
 		//center line - max 2 boxes
 		int nr = 0;
-		if (this->board[x + 1][y - 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x + 2][y] == 1) {
+		if (this->board[x + 1][y - 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x + 2][y] == 1 && this->board[x + 1][y] == 0) {
 			this->board[x + 1][y] = player_id;
 			nr++;
 		}
-		if (this->board[x - 1][y - 1] == 1 && this->board[x - 1][y + 1] == 1 && this->board[x - 2][y] == 1) {
+		if (this->board[x - 1][y - 1] == 1 && this->board[x - 1][y + 1] == 1 && this->board[x - 2][y] == 1 && this->board[x - 1][y] == 0) {
 			this->board[x - 1][y] = player_id;
 			nr++;
 		}
@@ -179,7 +179,7 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 
 		//left edge line - max 1 box
 		if (x == 0) {
-			if (this->board[x - 1][y + 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x][y + 2] == 1) {
+			if (this->board[x - 1][y + 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x][y + 2] == 1 && this->board[x][y + 1] == 0) {
 				this->board[x][y + 1] = player_id;
 				return 1;
 			}
@@ -188,7 +188,7 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 
 		//rigth edge line - max 1 box
 		if (x == this->cols - 1) {
-			if (this->board[x - 1][y - 1] == 1 && this->board[x + 1][y - 1] == 1 && this->board[x][y - 2] == 1) {
+			if (this->board[x - 1][y - 1] == 1 && this->board[x + 1][y - 1] == 1 && this->board[x][y - 2] == 1 && this->board[x][y - 1] == 0) {
 				this->board[x][y - 1] = player_id;
 				return 1;
 			}
@@ -197,11 +197,11 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 
 		//center line - max 2 boxes
 		int nr = 0;
-		if (this->board[x - 1][y + 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x][y + 2] == 1) {
+		if (this->board[x - 1][y + 1] == 1 && this->board[x + 1][y + 1] == 1 && this->board[x][y + 2] == 1 && this->board[x][y + 1] == 0) {
 			this->board[x][y + 1] = player_id;
 			nr++;
 		}
-		if (this->board[x - 1][y - 1] == 1 && this->board[x + 1][y - 1] == 1 && this->board[x][y - 2] == 1) {
+		if (this->board[x - 1][y - 1] == 1 && this->board[x + 1][y - 1] == 1 && this->board[x][y - 2] == 1 && this->board[x][y - 1] == 0) {
 			this->board[x][y - 1] = player_id;
 			nr++;
 		}
@@ -209,4 +209,16 @@ int Game::completedBoxesWithMove(int startX, int startY, int destX, int destY, i
 	}
 
 	return 0;
+}
+
+int ** Game::getState()
+{
+	int** state = new int*[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		state[i] = new int[this->cols];
+		for (int j = 0; j < this->cols; j++) {
+			state[i][j] = this->board[i][j];
+		}
+	}
+	return state;
 }

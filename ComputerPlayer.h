@@ -22,9 +22,11 @@ private:
 	Game* game;
 
 public:
-	ComputerPlayer(Game* game) {
+	ComputerPlayer(Game* game, int depth, int turnTime) {
 		this->score = 0;
 		this->game = game;
+		this->depth = depth;
+		this->turnTime = turnTime;
 	}
 	~ComputerPlayer();
 	int getScore() {
@@ -33,6 +35,7 @@ public:
 	void incrementScore(int points) {
 		score += points;
 	}
+	void move();
 
 private:
 	ABNode* newABRootNode(int** state);
