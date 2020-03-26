@@ -27,11 +27,18 @@ public:
 	Game(const int rows, const int cols);
 	~Game();
 	void printBoard();
+	int getNumRows() {
+		return rows;
+	}
+	int getNumCols() {
+		return cols;
+	}
 	bool validCoordinates(int x, int y);
 	bool lineIsFree(int startX, int startY, int destX, int destY);
 	void addLine(int startX, int startY, int destX, int destY);
 	bool checkEndGame();
 	int completedBoxesWithMove(int startX, int startY, int destX, int destY, int player_id);
+	int** getState();
 
 private:
 	void convertLineCoordinates(int startX, int startY, int destX, int destY, int *x, int *y);
